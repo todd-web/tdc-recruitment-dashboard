@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #F5F0E8;
+  color: #1A1A1A;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f0ebe3; }
+::-webkit-scrollbar-thumb { background: #C5A572; border-radius: 3px; }
+
+/* Animations */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #e8d5b0 25%, #d4b896 50%, #e8d5b0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+
+.animate-fade-in-delay-1 { animation-delay: 0.05s; opacity: 0; }
+.animate-fade-in-delay-2 { animation-delay: 0.1s; opacity: 0; }
+.animate-fade-in-delay-3 { animation-delay: 0.15s; opacity: 0; }
+.animate-fade-in-delay-4 { animation-delay: 0.2s; opacity: 0; }
+.animate-fade-in-delay-5 { animation-delay: 0.25s; opacity: 0; }
+
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(197, 165, 114, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(197, 165, 114, 0); }
+}
+
+.pulse-gold { animation: pulse-gold 2s infinite; }
+
+/* Gap bar animation */
+@keyframes fillBar {
+  from { width: 0; }
+}
+
+.gap-bar-fill {
+  animation: fillBar 0.8s ease-out forwards;
+}
+
+/* Urgency badges */
+.badge-critical { @apply bg-red-600 text-white; }
+.badge-high { @apply bg-orange-500 text-white; }
+.badge-medium { @apply bg-yellow-500 text-tdc-black; }
+.badge-low { @apply bg-green-500 text-white; }

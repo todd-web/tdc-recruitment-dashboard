@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: tdc-recruitment-dashboard
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TDC_PORTAL_API
+        sync: false
+      - key: TDC_PORTAL_EMAIL
+        sync: false
+      - key: TDC_PORTAL_PASSWORD
+        sync: false
+      - key: STREAK_API_KEY
+        sync: false
+      - key: STREAK_APPLIED_PIPELINE_KEY
+        sync: false
+      - key: STREAK_SOURCED_PIPELINE_KEY
+        sync: false
+      - key: WORKABLE_API_KEY
+        sync: false

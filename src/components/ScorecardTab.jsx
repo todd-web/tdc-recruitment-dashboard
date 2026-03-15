@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ClipboardCheck, CheckCircle2, XCircle, MinusCircle, AlertTriangle } from 'lucide-react';
+import { fetchEndpoint } from '../api';
 
 export default function ScorecardTab({ refreshKey }) {
   const [data, setData] = useState(null);
@@ -11,9 +12,7 @@ export default function ScorecardTab({ refreshKey }) {
       setLoading(true);
       try {
         const params = refreshKey > 0 ? '?refresh=true' : '';
-        const res = await fetch(`/api/scorecard${params}`);
-        if (!res.ok) throw new Error(`API error: ${res.status}`);
-        setData(await res.json());
+        setData(await fetchEndpoint('scorecard', params));
       } catch (err) {
         setError(err.message);
       } finally {

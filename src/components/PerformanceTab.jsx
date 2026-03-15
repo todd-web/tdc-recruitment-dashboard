@@ -4,6 +4,7 @@ import {
   PieChart, Pie, Legend
 } from 'recharts';
 import { Users, MapPin, Heart, TrendingUp, Clock, AlertTriangle } from 'lucide-react';
+import { fetchEndpoint } from '../api';
 
 const PERIOD_LABELS = {
   today: 'Today',
@@ -26,9 +27,7 @@ export default function PerformanceTab({ refreshKey }) {
       setLoading(true);
       try {
         const params = refreshKey > 0 ? '?refresh=true' : '';
-        const res = await fetch(`/api/performance${params}`);
-        if (!res.ok) throw new Error(`API error: ${res.status}`);
-        setData(await res.json());
+        setData(await fetchEndpoint('performance', params));
       } catch (err) {
         setError(err.message);
       } finally {

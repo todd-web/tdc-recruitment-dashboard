@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Search, TrendingUp, AlertTriangle, ChevronDown, ChevronRight, Zap, Target } from 'lucide-react';
+import { fetchEndpoint } from '../api';
 
 const URGENCY_COLORS = {
   CRITICAL: '#dc2626',
@@ -33,9 +34,8 @@ export default function PriorityTab({ refreshKey }) {
       const filtered = salesOverrides.filter(Boolean);
       if (filtered.length > 0) params.set('overrides', filtered.join(','));
 
-      const res = await fetch(`/api/priorities?${params}`);
-      if (!res.ok) throw new Error(`API error: ${res.status}`);
-      const json = await res.json();
+      const paramsStr = params.toString() ? `?${params}` : '';
+      const json = await fetchEndpoint('priorities', paramsStr);
       setData(json);
     } catch (err) {
       setError(err.message);

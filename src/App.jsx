@@ -26,7 +26,7 @@ export default function App() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3">
-                <img src="/tdc-logo-white.png" alt="The Desire Company" className="h-10" />
+                <img src={`${import.meta.env.BASE_URL}tdc-logo-white.png`} alt="The Desire Company" className="h-10" />
                 <div className="border-l border-tdc-gray-mid pl-3">
                   <p className="text-tdc-gold text-xs font-semibold tracking-widest uppercase">
                     Recruitment Intelligence
@@ -81,7 +81,7 @@ export default function App() {
       {/* Footer */}
       <footer className="bg-tdc-black text-tdc-gray-light text-xs text-center py-4 mt-8">
         <div className="flex items-center justify-center gap-3">
-          <img src="/tdc-icon-gold.png" alt="" className="h-5 opacity-60" />
+          <img src={`${import.meta.env.BASE_URL}tdc-icon-gold.png`} alt="" className="h-5 opacity-60" />
           <span>The Desire Company - Expert Operations Intelligence | Powered by Expert Team AI</span>
         </div>
       </footer>

@@ -1,17 +1,19 @@
 import React, { useState, useCallback } from 'react';
-import { RefreshCw, Target, BarChart3, ClipboardCheck } from 'lucide-react';
+import { RefreshCw, Target, BarChart3, ClipboardCheck, Users } from 'lucide-react';
+import CommunityTab from './components/CommunityTab';
 import PriorityTab from './components/PriorityTab';
 import PerformanceTab from './components/PerformanceTab';
 import ScorecardTab from './components/ScorecardTab';
 
 const TABS = [
-  { id: 'priorities', label: 'Recruitment Priorities', icon: Target },
-  { id: 'performance', label: 'Recruitment Performance', icon: BarChart3 },
-  { id: 'scorecard', label: 'Cycle Scorecard', icon: ClipboardCheck },
+  { id: 'community', label: 'Community', icon: Users },
+  { id: 'performance', label: 'Recruitment', icon: BarChart3 },
+  { id: 'scorecard', label: 'Scorecard', icon: ClipboardCheck },
+  { id: 'priorities', label: 'Coverage', icon: Target },
 ];
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('priorities');
+  const [activeTab, setActiveTab] = useState('community');
   const [refreshKey, setRefreshKey] = useState(0);
 
   const triggerRefresh = useCallback(() => {
@@ -73,6 +75,7 @@ export default function App() {
 
       {/* Content */}
       <main className="max-w-7xl mx-auto px-6 py-6">
+        {activeTab === 'community' && <CommunityTab refreshKey={refreshKey} />}
         {activeTab === 'priorities' && <PriorityTab refreshKey={refreshKey} />}
         {activeTab === 'performance' && <PerformanceTab refreshKey={refreshKey} />}
         {activeTab === 'scorecard' && <ScorecardTab refreshKey={refreshKey} />}

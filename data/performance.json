@@ -1,7 +1,7 @@
 {
   "funnel": {
     "ytd": {
-      "leads": 2541,
+      "leads": 2562,
       "prospects": 175,
       "onboarded": 94,
       "conversionRate": 3.7
@@ -9,7 +9,7 @@
   },
   "periods": {
     "ytd": {
-      "leads": 2541,
+      "leads": 2562,
       "prospects": 175,
       "onboarded": 94
     },
@@ -19,23 +19,23 @@
       "onboarded": 36
     },
     "2026-02": {
-      "leads": 64,
+      "leads": 54,
       "prospects": 57,
       "onboarded": 53
     },
     "2026-03": {
-      "leads": 71,
+      "leads": 564,
       "prospects": 70,
       "onboarded": 5
     },
     "q1-2026": {
-      "leads": 2541,
-      "prospects": 164,
+      "leads": 2562,
+      "prospects": 175,
       "onboarded": 94
     },
     "2025": {
       "leads": 606,
-      "prospects": 320,
+      "prospects": 315,
       "onboarded": 315
     },
     "2024": {
@@ -57,75 +57,63 @@
     {
       "month": "2025-04",
       "leads": 43,
-      "prospects": 35,
       "onboarded": 35
     },
     {
       "month": "2025-05",
       "leads": 45,
-      "prospects": 36,
       "onboarded": 36
     },
     {
       "month": "2025-06",
       "leads": 26,
-      "prospects": 22,
       "onboarded": 22
     },
     {
       "month": "2025-07",
       "leads": 35,
-      "prospects": 26,
       "onboarded": 26
     },
     {
       "month": "2025-08",
       "leads": 49,
-      "prospects": 43,
       "onboarded": 43
     },
     {
       "month": "2025-09",
       "leads": 17,
-      "prospects": 15,
       "onboarded": 15
     },
     {
       "month": "2025-10",
-      "leads": 229,
-      "prospects": 12,
+      "leads": 199,
       "onboarded": 12
     },
     {
       "month": "2025-11",
-      "leads": 100,
-      "prospects": 30,
+      "leads": 65,
       "onboarded": 30
     },
     {
       "month": "2025-12",
       "leads": 25,
-      "prospects": 23,
       "onboarded": 23
     },
     {
       "month": "2026-01",
       "leads": 1944,
-      "prospects": 37,
       "onboarded": 36
     },
     {
       "month": "2026-02",
-      "leads": 64,
-      "prospects": 57,
+      "leads": 54,
       "onboarded": 53
     },
     {
       "month": "2026-03",
-      "leads": 71,
-      "prospects": 70,
+      "leads": 564,
       "onboarded": 5
     }
   ],
-  "lastUpdated": "2026-03-19T00:45:43.333708"
+  "lastUpdated": "2026-03-19T07:14:58.299004"
 }

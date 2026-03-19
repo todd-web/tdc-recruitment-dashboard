@@ -20,8 +20,8 @@ const ORANGE = '#f97316';
 
 const PERIOD_OPTIONS = [
   { key: 'ytd', label: 'Year to Date' },
-  { key: '2026-03', label: 'This Month (Mar)' },
-  { key: '2026-02', label: 'Last Month (Feb)' },
+  { key: '2026-03', label: 'March' },
+  { key: '2026-02', label: 'February' },
   { key: '2026-01', label: 'January' },
   { key: 'q1-2026', label: 'Q1 2026' },
   { key: '2025', label: '2025' },
@@ -68,24 +68,20 @@ export default function PerformanceTab({ refreshKey }) {
 }
 
 function PerformanceContent({ data, selectedPeriod, setSelectedPeriod }) {
-  const { funnel, periods, targets2026, monthlyTrend, community, streak } = data;
+  const { funnel, periods, targets2026, monthlyTrend, community } = data;
 
-  // Funnel data from corrected structure
+  // Funnel data
   const funnelYTD = funnel?.ytd || {};
   const leads = safeNum(funnelYTD.leads, 0);
   const prospects = safeNum(funnelYTD.prospects, 0);
-  const inReview = safeNum(funnelYTD.inReview, 0);
   const onboardedYTD = safeNum(funnelYTD.onboarded, 0);
   const conversionRate = safeNum(funnelYTD.conversionRate, 0);
-  const leadsBreakdown = funnelYTD.leadsBreakdown || {};
-  const prospectsBreakdown = funnelYTD.prospectsBreakdown || {};
 
   // Period data - drives the highlight card and metric pills
   const periodData = periods?.[selectedPeriod] || {};
   const periodOnboarded = safeNum(periodData.onboarded);
   const periodLeads = safeNum(periodData.leads);
   const periodProspects = safeNum(periodData.prospects);
-  const periodV1Leads = safeNum(periodData.v1Leads);
   const periodLabel = PERIOD_OPTIONS.find(p => p.key === selectedPeriod)?.label || selectedPeriod;
 
   // Conversion rates between stages
@@ -95,9 +91,8 @@ function PerformanceContent({ data, selectedPeriod, setSelectedPeriod }) {
   // Community data
   const totalActiveExperts = safeNum(community?.totalActive, 0);
   const communityProspects = safeNum(community?.prospects, 0);
-  const communityInReview = safeNum(community?.inReview, 0);
 
-  // 2026 targets with real numbers
+  // 2026 targets
   const onboardTarget = safeNum(targets2026?.onboardings, 1500);
   const communityTarget = safeNum(targets2026?.communitySize, 3500);
   const conversionTarget = safeNum(targets2026?.conversionRate, 10);
@@ -108,17 +103,13 @@ function PerformanceContent({ data, selectedPeriod, setSelectedPeriod }) {
     conversionRate: { current: conversionRate, target: conversionTarget, label: 'Conversion Rate', suffix: '%' },
   };
 
-  // Monthly trend for chart - include onboarded AND v1Leads
+  // Monthly trend for chart - two bars: Leads and Onboarded
   const trendData = (monthlyTrend || []).map(m => ({
     month: formatMonthLabel(m.month),
+    leads: safeNum(m.leads, 0),
     onboarded: safeNum(m.onboarded, 0),
-    v1Leads: safeNum(m.v1Leads, 0),
-    totalEntered: safeNum(m.totalEntered, 0),
     fullMonth: m.month
   }));
-
-  // Check if any month has v1Leads > 0 to show the bar
-  const hasV1Leads = trendData.some(d => d.v1Leads > 0);
 
   return (
     <div className="space-y-6">
@@ -153,16 +144,13 @@ function PerformanceContent({ data, selectedPeriod, setSelectedPeriod }) {
           </div>
           <div className="text-right space-y-2">
             <MetricPill label="Leads" value={periodLeads} />
-            {periodV1Leads !== 'N/A' && periodV1Leads > 0 && (
-              <MetricPill label="V1 Leads" value={periodV1Leads} />
-            )}
             <MetricPill label="Prospects" value={periodProspects} />
             <MetricPill label="Onboarded" value={periodOnboarded} highlight />
           </div>
         </div>
       </div>
 
-      {/* 4-Stage Recruitment Funnel */}
+      {/* 3-Stage Recruitment Funnel */}
       <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
         <h3 className="font-bold text-sm text-tdc-black mb-5 flex items-center gap-2">
           <Users size={16} className="text-tdc-gold" />
@@ -170,99 +158,57 @@ function PerformanceContent({ data, selectedPeriod, setSelectedPeriod }) {
         </h3>
 
         {/* Visual Funnel Steps */}
-        <div className="flex items-center justify-center gap-3 mb-4">
+        <div className="flex items-center justify-center gap-4 mb-4">
           {[
             {
               label: 'Leads',
               sublabel: 'All entered system',
               value: leads,
               color: 'bg-tdc-gold',
-              textColor: 'text-tdc-black',
-              tooltip: `V1 Pipeline: ${safeDisplay(leadsBreakdown.v1Pipeline)} + V2 Pipeline: ${safeDisplay(leadsBreakdown.v2Pipeline)}`
+              textColor: 'text-tdc-black'
             },
             {
               label: 'Prospects',
-              sublabel: 'Portal prospects',
+              sublabel: 'In review pipeline',
               value: prospects,
               color: 'bg-tdc-gold-dark',
-              textColor: 'text-white',
-              tooltip: `${safeDisplay(prospectsBreakdown.currentProspects)} current + ${safeDisplay(prospectsBreakdown.graduatedToActive)} graduated to Active`
-            },
-            {
-              label: 'In Review',
-              sublabel: 'Being vetted',
-              value: inReview,
-              color: 'bg-amber-500',
-              textColor: 'text-white',
-              tooltip: null
+              textColor: 'text-white'
             },
             {
               label: 'Onboarded',
               sublabel: 'Active in 2026',
               value: onboardedYTD,
               color: 'bg-green-500',
-              textColor: 'text-white',
-              tooltip: null
+              textColor: 'text-white'
             },
-          ].map((step, i, arr) => (
+          ].map((step, i) => (
             <React.Fragment key={step.label}>
               {i > 0 && (
                 <div className="flex flex-col items-center">
                   <ArrowRight size={20} className="text-tdc-gray-light" />
                   <span className="text-[9px] text-tdc-gray-light mt-0.5">
-                    {i === 1 ? `${leadToProspect}%` : i === 3 ? `${prospectToOnboarded}%` : ''}
+                    {i === 1 ? `${leadToProspect}%` : `${prospectToOnboarded}%`}
                   </span>
                 </div>
               )}
-              <div className="group relative">
-                <div className={`${step.color} ${step.textColor} rounded-xl px-6 py-4 text-center min-w-[120px] shadow-sm cursor-default`}>
-                  <p className="text-3xl font-bold">{typeof step.value === 'number' ? step.value.toLocaleString() : step.value}</p>
-                  <p className="text-xs font-semibold opacity-90 mt-1">{step.label}</p>
-                  <p className="text-[10px] opacity-70 mt-0.5">{step.sublabel}</p>
-                </div>
-                {step.tooltip && (
-                  <div className="absolute z-10 invisible group-hover:visible bg-gray-900 text-white text-[11px] rounded-lg px-3 py-2 -bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap shadow-lg">
-                    {step.tooltip}
-                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45" />
-                  </div>
-                )}
+              <div className={`${step.color} ${step.textColor} rounded-xl px-8 py-5 text-center min-w-[140px] shadow-sm`}>
+                <p className="text-3xl font-bold">{typeof step.value === 'number' ? step.value.toLocaleString() : step.value}</p>
+                <p className="text-xs font-semibold opacity-90 mt-1">{step.label}</p>
+                <p className="text-[10px] opacity-70 mt-0.5">{step.sublabel}</p>
               </div>
             </React.Fragment>
           ))}
         </div>
 
         {/* Conversion Rate + Target Badge */}
-        <div className="grid grid-cols-4 gap-4 pt-4 border-t border-gray-100">
+        <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-100">
           <ConversionBadge label="Lead to Prospect" rate={leadToProspect} />
           <ConversionBadge label="Prospect to Onboarded" rate={prospectToOnboarded} />
           <ConversionBadge label="Overall (Lead to Onboarded)" rate={conversionRate} highlight />
-          <div className="bg-gray-50 rounded-lg p-3 text-center">
-            <p className="text-[10px] text-tdc-gray-light font-medium uppercase tracking-wider mb-1">2026 Target</p>
-            <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold ${
-              conversionRate >= conversionTarget ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-            }`}>
-              <Target size={12} />
-              {conversionRate >= conversionTarget ? `Above ${conversionTarget}% target` : `Below ${conversionTarget}% target`}
-            </span>
-          </div>
         </div>
       </div>
 
-      {/* Context Note - V1 + V2 Lead Counting */}
-      <div className="bg-blue-50 rounded-xl border border-blue-200 p-4 shadow-sm flex items-start gap-3">
-        <Info size={18} className="text-blue-500 mt-0.5 shrink-0" />
-        <div>
-          <p className="text-xs font-semibold text-blue-800 mb-1">How We Count the Funnel</p>
-          <p className="text-xs text-blue-700 leading-relaxed">
-            Lead count includes V1 Recruitment Pipeline (historical) and V2 Pipelines (current).
-            January 2026 shows 1,944 V1 leads from sourcing initiatives. The {conversionRate}% conversion
-            rate reflects the ratio of total leads ({leads > 0 ? leads.toLocaleString() : 'N/A'}) who
-            completed the full journey to Active/Onboarded status ({onboardedYTD > 0 ? onboardedYTD.toLocaleString() : 'N/A'}).
-          </p>
-        </div>
-      </div>
-
-      {/* Monthly Trend Chart - Onboarded + V1 Leads */}
+      {/* Monthly Trend Chart - Leads + Onboarded */}
       <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
         <h3 className="font-bold text-sm text-tdc-black mb-4 flex items-center gap-2">
           <Activity size={16} className="text-tdc-gold" />
@@ -290,8 +236,8 @@ function PerformanceContent({ data, selectedPeriod, setSelectedPeriod }) {
                     fontSize: 12
                   }}
                   formatter={(value, name) => {
-                    if (name === 'v1Leads') return [`${value.toLocaleString()} leads`, 'V1 Pipeline Leads'];
-                    if (name === 'onboarded') return [`${value} experts`, 'Onboarded'];
+                    if (name === 'leads') return [`${value.toLocaleString()}`, 'Leads'];
+                    if (name === 'onboarded') return [`${value.toLocaleString()}`, 'Onboarded'];
                     return [value, name];
                   }}
                   labelFormatter={(label, payload) => {
@@ -299,17 +245,8 @@ function PerformanceContent({ data, selectedPeriod, setSelectedPeriod }) {
                     return label;
                   }}
                 />
-                {/* V1 Leads bar - shows the January spike */}
-                <Bar dataKey="v1Leads" name="v1Leads" radius={[4, 4, 0, 0]} fill={ORANGE} opacity={0.7} />
-                {/* Onboarded bar */}
-                <Bar dataKey="onboarded" name="onboarded" radius={[4, 4, 0, 0]}>
-                  {trendData.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={entry.fullMonth.startsWith('2026') ? GREEN : GOLD}
-                    />
-                  ))}
-                </Bar>
+                <Bar dataKey="leads" name="leads" radius={[4, 4, 0, 0]} fill={GOLD} opacity={0.7} />
+                <Bar dataKey="onboarded" name="onboarded" radius={[4, 4, 0, 0]} fill={GREEN} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -318,16 +255,12 @@ function PerformanceContent({ data, selectedPeriod, setSelectedPeriod }) {
         )}
         <div className="flex justify-center gap-6 mt-3">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded" style={{ backgroundColor: ORANGE, opacity: 0.7 }} />
-            <span className="text-xs text-tdc-gray-light">V1 Pipeline Leads</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded" style={{ backgroundColor: GOLD }} />
-            <span className="text-xs text-tdc-gray-light">Onboarded (2025)</span>
+            <div className="w-3 h-3 rounded" style={{ backgroundColor: GOLD, opacity: 0.7 }} />
+            <span className="text-xs text-tdc-gray-light">Leads</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded" style={{ backgroundColor: GREEN }} />
-            <span className="text-xs text-tdc-gray-light">Onboarded (2026)</span>
+            <span className="text-xs text-tdc-gray-light">Onboarded</span>
           </div>
         </div>
       </div>
@@ -415,70 +348,38 @@ function PerformanceContent({ data, selectedPeriod, setSelectedPeriod }) {
       </div>
 
       {/* Tracking Cards Row */}
-      <div className="grid grid-cols-3 gap-4">
-        {/* Pipeline Breakdown - V1 + V2 */}
+      <div className="grid grid-cols-2 gap-4">
+        {/* Lead Summary */}
         <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
           <h3 className="font-bold text-sm text-tdc-black mb-3 flex items-center gap-2">
             <Users size={16} className="text-tdc-gold" />
-            Pipeline Breakdown
-          </h3>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 bg-orange-50 rounded-lg border border-orange-200">
-              <div>
-                <p className="text-xs font-semibold text-tdc-black">V1 Pipeline (Historical)</p>
-                <p className="text-[10px] text-tdc-gray-light">Legacy sourcing leads</p>
-              </div>
-              <p className="text-xl font-bold text-orange-600">{safeDisplay(leadsBreakdown.v1Pipeline)}</p>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <div>
-                <p className="text-xs font-semibold text-tdc-black">V2 Applied Pipeline</p>
-                <p className="text-[10px] text-tdc-gray-light">Workable + direct</p>
-              </div>
-              <p className="text-xl font-bold text-tdc-black">{safeDisplay(streak?.applied?.total)}</p>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <div>
-                <p className="text-xs font-semibold text-tdc-black">V2 Sourced Pipeline</p>
-                <p className="text-[10px] text-tdc-gray-light">Team-sourced</p>
-              </div>
-              <p className="text-xl font-bold text-tdc-black">{safeDisplay(streak?.sourced?.total)}</p>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-tdc-gold bg-opacity-10 rounded-lg border border-tdc-gold border-opacity-30">
-              <div>
-                <p className="text-xs font-semibold text-tdc-black">Combined Total (V1 + V2)</p>
-                <p className="text-[10px] text-tdc-gray-light">All leads YTD</p>
-              </div>
-              <p className="text-xl font-bold text-tdc-black">{safeDisplay(leads)}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Funnel Breakdown */}
-        <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <h3 className="font-bold text-sm text-tdc-black mb-3 flex items-center gap-2">
-            <TrendingUp size={16} className="text-tdc-gold" />
-            Funnel Breakdown (YTD)
+            Lead Summary (YTD)
           </h3>
           <div className="space-y-3">
             <div className="flex justify-between items-baseline">
               <span className="text-xs text-tdc-gray-light">Total Leads</span>
               <span className="text-2xl font-bold text-tdc-black">{safeDisplay(leads)}</span>
             </div>
-            <div className="grid grid-cols-2 gap-2">
-              <div className="bg-orange-50 rounded-lg p-2 border border-orange-100">
-                <p className="text-[10px] text-tdc-gray-light">V1 Pipeline</p>
-                <p className="text-lg font-bold text-orange-600">{safeDisplay(leadsBreakdown.v1Pipeline)}</p>
+            <div className="grid grid-cols-3 gap-2">
+              <div className="bg-gray-50 rounded-lg p-2 text-center">
+                <p className="text-[10px] text-tdc-gray-light">January</p>
+                <p className="text-lg font-bold text-tdc-black">{safeDisplay(periods?.['2026-01']?.leads)}</p>
               </div>
-              <div className="bg-blue-50 rounded-lg p-2 border border-blue-100">
-                <p className="text-[10px] text-tdc-gray-light">V2 Pipeline</p>
-                <p className="text-lg font-bold text-blue-600">{safeDisplay(leadsBreakdown.v2Pipeline)}</p>
+              <div className="bg-gray-50 rounded-lg p-2 text-center">
+                <p className="text-[10px] text-tdc-gray-light">February</p>
+                <p className="text-lg font-bold text-tdc-black">{safeDisplay(periods?.['2026-02']?.leads)}</p>
+              </div>
+              <div className="bg-gray-50 rounded-lg p-2 text-center">
+                <p className="text-[10px] text-tdc-gray-light">March</p>
+                <p className="text-lg font-bold text-tdc-black">{safeDisplay(periods?.['2026-03']?.leads)}</p>
               </div>
             </div>
-            <div className="pt-2 border-t border-gray-100">
-              <p className="text-[10px] text-tdc-gray-light">
-                {leadsBreakdown.note || 'V1 (historical) + V2 (current) pipelines combined'}
-              </p>
+            <div className="flex items-center justify-between p-3 bg-tdc-gold bg-opacity-10 rounded-lg border border-tdc-gold border-opacity-30">
+              <div>
+                <p className="text-xs font-semibold text-tdc-black">Conversion Rate</p>
+                <p className="text-[10px] text-tdc-gray-light">Onboarded / Total Leads</p>
+              </div>
+              <p className="text-xl font-bold text-tdc-black">{conversionRate}%</p>
             </div>
           </div>
         </div>
@@ -494,14 +395,13 @@ function PerformanceContent({ data, selectedPeriod, setSelectedPeriod }) {
               <span className="text-xs text-tdc-gray-light">Total Active Experts</span>
               <span className="text-2xl font-bold text-green-600">{safeDisplay(totalActiveExperts)}</span>
             </div>
-            <div className="grid grid-cols-2 gap-2">
-              <div className="bg-gray-50 rounded-lg p-2">
-                <p className="text-[10px] text-tdc-gray-light">Prospects</p>
+            <div className="bg-gray-50 rounded-lg p-3">
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-xs font-semibold text-tdc-black">Current Prospects</p>
+                  <p className="text-[10px] text-tdc-gray-light">Experts in review pipeline</p>
+                </div>
                 <p className="text-lg font-bold text-tdc-black">{safeDisplay(communityProspects)}</p>
-              </div>
-              <div className="bg-gray-50 rounded-lg p-2">
-                <p className="text-[10px] text-tdc-gray-light">In Review</p>
-                <p className="text-lg font-bold text-tdc-black">{safeDisplay(communityInReview)}</p>
               </div>
             </div>
             <div className="pt-2 border-t border-gray-100">
@@ -573,10 +473,22 @@ function PerformanceContent({ data, selectedPeriod, setSelectedPeriod }) {
         </div>
       </div>
 
+      {/* Context Note */}
+      <div className="bg-blue-50 rounded-xl border border-blue-200 p-4 shadow-sm flex items-start gap-3">
+        <Info size={18} className="text-blue-500 mt-0.5 shrink-0" />
+        <div>
+          <p className="text-xs font-semibold text-blue-800 mb-1">How We Count</p>
+          <p className="text-xs text-blue-700 leading-relaxed">
+            Lead data combines all recruitment pipeline sources. Prospect count represents experts in review pipeline.
+            Conversion rate = Onboarded / Total Leads.
+          </p>
+        </div>
+      </div>
+
       {/* Last Updated */}
       <p className="text-xs text-tdc-gray-light text-right">
         Last updated: {data.lastUpdated ? new Date(data.lastUpdated).toLocaleString() : 'N/A'}
-        <span className="ml-2">| Source: Portal + Streak Data (V1 + V2 Pipelines)</span>
+        <span className="ml-2">| Source: Portal + Streak Data</span>
       </p>
     </div>
   );
@@ -672,8 +584,8 @@ function LoadingSkeleton() {
       <div className="bg-white rounded-xl border border-gray-200 p-6">
         <div className="h-4 w-40 shimmer rounded mb-4" />
         <div className="flex justify-center gap-4">
-          {[1, 2, 3, 4].map(i => (
-            <div key={i} className="h-20 w-32 shimmer rounded-xl" />
+          {[1, 2, 3].map(i => (
+            <div key={i} className="h-20 w-36 shimmer rounded-xl" />
           ))}
         </div>
       </div>

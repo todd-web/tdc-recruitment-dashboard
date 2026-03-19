@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell
 } from 'recharts';
 import {
   Users, TrendingUp, AlertTriangle, Target, Mail, UserPlus,
-  Heart, ArrowRight
+  Heart, ArrowRight, Calendar, ChevronDown, Activity
 } from 'lucide-react';
 import { fetchEndpoint } from '../api';
 
@@ -13,11 +13,23 @@ const GOLD_DARK = '#A88B5E';
 const GOLD_LIGHT = '#D4B896';
 const BLACK = '#1A1A1A';
 const GREEN = '#22c55e';
+const GREEN_DARK = '#16a34a';
+
+const PERIOD_OPTIONS = [
+  { key: 'ytd', label: 'Year to Date (2026)' },
+  { key: 'thisMonth', label: 'This Month (Mar 2026)' },
+  { key: 'lastMonth', label: 'Last Month (Feb 2026)' },
+  { key: 'thisQuarter', label: 'Q1 2026' },
+  { key: 'q4-2025', label: 'Q4 2025' },
+  { key: '2025', label: '2025 Full Year' },
+  { key: '2024', label: '2024 Full Year' },
+];
 
 export default function PerformanceTab({ refreshKey }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedPeriod, setSelectedPeriod] = useState('ytd');
 
   useEffect(() => {
     (async () => {
@@ -37,12 +49,22 @@ export default function PerformanceTab({ refreshKey }) {
   if (error) return <ErrorState message={error} />;
   if (!data) return null;
 
-  const { streak, totalActiveExperts, onboarded, bipoc } = data;
+  return <PerformanceContent data={data} selectedPeriod={selectedPeriod} setSelectedPeriod={setSelectedPeriod} />;
+}
 
-  // Funnel: 3 stages - Leads -> Prospects -> Onboarded
-  const totalLeads = streak.combined.total || 0;
-  const prospects = data.prospects || 508;
-  const onboardedYTD = onboarded.thisQuarter || 0;
+function PerformanceContent({ data, selectedPeriod, setSelectedPeriod }) {
+  const { streak, totalActiveExperts, onboarded, periods, funnel, targets2026, monthlyTrend, bipoc } = data;
+
+  // Get onboarded count for selected period
+  const periodData = periods?.[selectedPeriod] || {};
+  const periodOnboarded = periodData.onboarded || 0;
+  const periodLabel = periodData.label || PERIOD_OPTIONS.find(p => p.key === selectedPeriod)?.label || selectedPeriod;
+
+  // Funnel data (always YTD context for main funnel)
+  const totalLeads = streak?.combined?.total || 0;
+  const prospects = data.prospects || funnel?.prospects || 0;
+  const inReview = funnel?.inReview || 0;
+  const onboardedYTD = periods?.ytd?.onboarded || onboarded?.thisQuarter || 0;
 
   // Conversion rates
   const leadToProspect = totalLeads > 0 ? ((prospects / totalLeads) * 100).toFixed(1) : 0;
@@ -50,56 +72,83 @@ export default function PerformanceTab({ refreshKey }) {
   const overallConversion = totalLeads > 0 ? ((onboardedYTD / totalLeads) * 100).toFixed(1) : 0;
 
   // Bad email counts
-  const badEmailApplied = streak.applied.byStage?.['Bad Email'] || streak.applied.byStage?.['bad-email'] || streak.applied.byStage?.['Bad Email / Bounced'] || 0;
-  const badEmailSourced = streak.sourced.byStage?.['Bad Email'] || streak.sourced.byStage?.['bad-email'] || streak.sourced.byStage?.['Bad Email / Bounced'] || 0;
+  const badEmailApplied = streak?.applied?.byStage?.['Bad Email'] || streak?.applied?.byStage?.['bad-email'] || streak?.applied?.byStage?.['Bad Email / Bounced'] || 0;
+  const badEmailSourced = streak?.sourced?.byStage?.['Bad Email'] || streak?.sourced?.byStage?.['bad-email'] || streak?.sourced?.byStage?.['Bad Email / Bounced'] || 0;
   const totalBadEmails = badEmailApplied + badEmailSourced;
 
-  // 2026 targets
+  // 2026 targets - use REAL onboarded YTD
   const targets = {
-    onboardings: { current: onboardedYTD, target: 1500, label: 'Total Onboardings' },
-    communitySize: { current: totalActiveExperts, target: 3500, label: 'Community Size' },
-    conversionRate: { current: parseFloat(overallConversion), target: 10, label: 'Conversion Rate', suffix: '%' },
+    onboardings: { current: onboardedYTD, target: targets2026?.onboardings || 1500, label: 'Total Onboardings' },
+    communitySize: { current: totalActiveExperts, target: targets2026?.communitySize || 3500, label: 'Community Size' },
+    conversionRate: { current: parseFloat(overallConversion), target: targets2026?.conversionRate || 10, label: 'Conversion Rate', suffix: '%' },
   };
 
-  // Funnel chart data for Recharts FunnelChart
-  const funnelData = [
-    { name: 'Leads', value: totalLeads, fill: GOLD },
-    { name: 'Prospects', value: prospects, fill: GOLD_DARK },
-    { name: 'Onboarded', value: onboardedYTD || 1, fill: GREEN },
-  ];
-
   // Stage breakdown chart data
-  const stageChartData = Object.entries(streak.applied.byStage || {}).map(([name, count]) => ({
+  const stageChartData = Object.entries(streak?.applied?.byStage || {}).map(([name, count]) => ({
     name: formatStageName(name),
     count,
   })).sort((a, b) => b.count - a.count);
 
+  // Monthly trend for chart
+  const trendData = (monthlyTrend || []).map(m => ({
+    month: formatMonthLabel(m.month),
+    onboarded: m.onboarded,
+    fullMonth: m.month
+  }));
+
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+      {/* Header with Period Selector */}
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <h2 className="text-lg font-bold text-tdc-black flex items-center gap-2">
           <TrendingUp size={20} className="text-tdc-gold" />
           Recruitment Performance
         </h2>
-        <p className="text-xs text-tdc-gray-light">
-          Data snapshot as of {new Date(data.lastRefresh).toLocaleDateString()}
-        </p>
+        <div className="flex items-center gap-3">
+          <PeriodSelector
+            selected={selectedPeriod}
+            onChange={setSelectedPeriod}
+          />
+          <p className="text-xs text-tdc-gray-light">
+            Data: {new Date(data.lastRefresh).toLocaleDateString()}
+          </p>
+        </div>
+      </div>
+
+      {/* Period-Specific Onboarded Highlight */}
+      <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200 p-6 shadow-sm">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-xs font-semibold text-green-700 uppercase tracking-wider mb-1">
+              {periodLabel} - Experts Onboarded
+            </p>
+            <p className="text-5xl font-bold text-green-700">{periodOnboarded}</p>
+            <p className="text-xs text-green-600 mt-2">
+              Active experts with Portal profile created in this period
+            </p>
+          </div>
+          <div className="text-right space-y-2">
+            <MetricPill label="This Week" value={onboarded?.thisWeek || 0} />
+            <MetricPill label="This Month" value={onboarded?.thisMonth || 0} />
+            <MetricPill label="YTD" value={onboardedYTD} highlight />
+          </div>
+        </div>
       </div>
 
       {/* 3-Stage Recruitment Funnel */}
       <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
         <h3 className="font-bold text-sm text-tdc-black mb-5 flex items-center gap-2">
           <Users size={16} className="text-tdc-gold" />
-          Recruitment Funnel (YTD)
+          Recruitment Funnel (YTD 2026)
         </h3>
 
         {/* Visual Funnel Steps */}
         <div className="flex items-center justify-center gap-3 mb-6">
           {[
-            { label: 'Leads', value: totalLeads, color: 'bg-tdc-gold', textColor: 'text-tdc-black' },
-            { label: 'Prospects', value: prospects, color: 'bg-tdc-gold-dark', textColor: 'text-white' },
-            { label: 'Onboarded', value: onboardedYTD, color: 'bg-green-500', textColor: 'text-white' },
+            { label: 'Leads', sublabel: 'Streak pipelines', value: totalLeads, color: 'bg-tdc-gold', textColor: 'text-tdc-black' },
+            { label: 'Prospects', sublabel: 'Portal prospects', value: prospects, color: 'bg-tdc-gold-dark', textColor: 'text-white' },
+            { label: 'In Review', sublabel: 'Being vetted', value: inReview, color: 'bg-amber-500', textColor: 'text-white' },
+            { label: 'Onboarded', sublabel: 'Active in 2026', value: onboardedYTD, color: 'bg-green-500', textColor: 'text-white' },
           ].map((step, i) => (
             <React.Fragment key={step.label}>
               {i > 0 && (
@@ -107,9 +156,10 @@ export default function PerformanceTab({ refreshKey }) {
                   <ArrowRight size={20} className="text-tdc-gray-light" />
                 </div>
               )}
-              <div className={`${step.color} ${step.textColor} rounded-xl px-8 py-5 text-center min-w-[140px] shadow-sm`}>
+              <div className={`${step.color} ${step.textColor} rounded-xl px-6 py-4 text-center min-w-[120px] shadow-sm`}>
                 <p className="text-3xl font-bold">{step.value.toLocaleString()}</p>
                 <p className="text-xs font-semibold opacity-90 mt-1">{step.label}</p>
+                <p className="text-[10px] opacity-70 mt-0.5">{step.sublabel}</p>
               </div>
             </React.Fragment>
           ))}
@@ -117,19 +167,9 @@ export default function PerformanceTab({ refreshKey }) {
 
         {/* Conversion Rates */}
         <div className="grid grid-cols-4 gap-4 pt-4 border-t border-gray-100">
-          <ConversionBadge
-            label="Lead to Prospect"
-            rate={leadToProspect}
-          />
-          <ConversionBadge
-            label="Prospect to Onboarded"
-            rate={prospectToOnboarded}
-          />
-          <ConversionBadge
-            label="Overall (Lead to Onboarded)"
-            rate={overallConversion}
-            highlight
-          />
+          <ConversionBadge label="Lead to Prospect" rate={leadToProspect} />
+          <ConversionBadge label="Prospect to Onboarded" rate={prospectToOnboarded} />
+          <ConversionBadge label="Overall (Lead to Onboarded)" rate={overallConversion} highlight />
           <div className="bg-gray-50 rounded-lg p-3 text-center">
             <p className="text-[10px] text-tdc-gray-light font-medium uppercase tracking-wider mb-1">2026 Target</p>
             <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold ${
@@ -142,8 +182,160 @@ export default function PerformanceTab({ refreshKey }) {
         </div>
       </div>
 
+      {/* Monthly Onboarding Trend */}
+      <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+        <h3 className="font-bold text-sm text-tdc-black mb-4 flex items-center gap-2">
+          <Activity size={16} className="text-tdc-gold" />
+          Monthly Onboarding Trend (Last 12 Months)
+        </h3>
+        {trendData.length > 0 ? (
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={trendData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis
+                  dataKey="month"
+                  tick={{ fontSize: 11, fill: '#666' }}
+                  axisLine={{ stroke: '#e0e0e0' }}
+                />
+                <YAxis
+                  tick={{ fontSize: 11, fill: '#666' }}
+                  axisLine={{ stroke: '#e0e0e0' }}
+                />
+                <Tooltip
+                  contentStyle={{
+                    borderRadius: 8,
+                    border: 'none',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                    fontSize: 12
+                  }}
+                  formatter={(value) => [`${value} experts`, 'Onboarded']}
+                  labelFormatter={(label, payload) => {
+                    if (payload && payload[0]) return payload[0].payload.fullMonth;
+                    return label;
+                  }}
+                />
+                <Bar dataKey="onboarded" radius={[4, 4, 0, 0]}>
+                  {trendData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={entry.fullMonth.startsWith('2026') ? GREEN : GOLD}
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        ) : (
+          <p className="text-sm text-tdc-gray-light text-center py-8">No trend data available</p>
+        )}
+        <div className="flex justify-center gap-6 mt-3">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded" style={{ backgroundColor: GOLD }} />
+            <span className="text-xs text-tdc-gray-light">2025</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded" style={{ backgroundColor: GREEN }} />
+            <span className="text-xs text-tdc-gray-light">2026</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 2026 Target Progress */}
+      <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+        <h3 className="font-bold text-sm text-tdc-black mb-5 flex items-center gap-2">
+          <Target size={16} className="text-tdc-gold" />
+          2026 Target Progress
+        </h3>
+        <div className="space-y-5">
+          {Object.entries(targets).map(([key, t]) => {
+            const pct = Math.min(100, Math.round((t.current / t.target) * 100));
+            const displayCurrent = t.suffix ? `${t.current}${t.suffix}` : t.current.toLocaleString();
+            const displayTarget = t.suffix ? `${t.target}${t.suffix}` : t.target.toLocaleString();
+            const barColor = pct >= 90 ? 'bg-green-500' : pct >= 50 ? 'bg-tdc-gold' : pct >= 25 ? 'bg-yellow-500' : 'bg-red-500';
+
+            // Calculate pace info for onboardings
+            let paceInfo = null;
+            if (key === 'onboardings') {
+              const dayOfYear = Math.floor((new Date('2026-03-18') - new Date('2026-01-01')) / 86400000);
+              const expectedPace = Math.round((t.target / 365) * dayOfYear);
+              const diff = t.current - expectedPace;
+              paceInfo = {
+                expected: expectedPace,
+                diff: diff,
+                ahead: diff >= 0
+              };
+            }
+
+            return (
+              <div key={key}>
+                <div className="flex justify-between text-xs mb-1.5">
+                  <span className="font-semibold text-tdc-black">{t.label}</span>
+                  <span className="text-tdc-gray-mid font-medium">
+                    {displayCurrent} / {displayTarget}
+                    {paceInfo && (
+                      <span className={`ml-2 ${paceInfo.ahead ? 'text-green-600' : 'text-red-600'}`}>
+                        ({paceInfo.ahead ? '+' : ''}{paceInfo.diff} vs. pace of {paceInfo.expected})
+                      </span>
+                    )}
+                  </span>
+                </div>
+                <div className="w-full h-5 bg-gray-100 rounded-full overflow-hidden relative">
+                  <div
+                    className={`h-full ${barColor} rounded-full gap-bar-fill`}
+                    style={{ width: `${pct}%` }}
+                  />
+                  <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-tdc-black">
+                    {pct}%
+                  </span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Quick stats row */}
+        <div className="grid grid-cols-4 gap-3 mt-5 pt-4 border-t border-gray-100">
+          <QuickStat label="Monthly Avg (2026)" value={Math.round(onboardedYTD / 2.6)} sub="experts/mo" />
+          <QuickStat label="Monthly Needed" value={Math.round((1500 - onboardedYTD) / 9.5)} sub="to hit 1,500" />
+          <QuickStat label="Best Month" value={getBestMonth(monthlyTrend)} sub="recent peak" />
+          <QuickStat label="Workable Apps" value={data.workable?.total || 0} sub="total applicants" />
+        </div>
+      </div>
+
       {/* Tracking Cards Row */}
       <div className="grid grid-cols-3 gap-4">
+        {/* Pipeline Breakdown */}
+        <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+          <h3 className="font-bold text-sm text-tdc-black mb-3 flex items-center gap-2">
+            <Users size={16} className="text-tdc-gold" />
+            Pipeline Breakdown
+          </h3>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div>
+                <p className="text-xs font-semibold text-tdc-black">Applied Pipeline</p>
+                <p className="text-[10px] text-tdc-gray-light">Workable + direct</p>
+              </div>
+              <p className="text-xl font-bold text-tdc-black">{streak?.applied?.total || 0}</p>
+            </div>
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div>
+                <p className="text-xs font-semibold text-tdc-black">Sourced Pipeline</p>
+                <p className="text-[10px] text-tdc-gray-light">Team-sourced</p>
+              </div>
+              <p className="text-xl font-bold text-tdc-black">{streak?.sourced?.total || 0}</p>
+            </div>
+            <div className="flex items-center justify-between p-3 bg-tdc-gold bg-opacity-10 rounded-lg border border-tdc-gold border-opacity-30">
+              <div>
+                <p className="text-xs font-semibold text-tdc-black">Combined Total</p>
+                <p className="text-[10px] text-tdc-gray-light">All active leads</p>
+              </div>
+              <p className="text-xl font-bold text-tdc-black">{streak?.combined?.total || 0}</p>
+            </div>
+          </div>
+        </div>
+
         {/* Bad Email Tracking */}
         <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
           <h3 className="font-bold text-sm text-tdc-black mb-3 flex items-center gap-2">
@@ -173,133 +365,173 @@ export default function PerformanceTab({ refreshKey }) {
           </div>
         </div>
 
-        {/* Referral Pipeline Placeholder */}
-        <div className="bg-white rounded-xl border border-gray-200 border-dashed p-5 shadow-sm">
-          <h3 className="font-bold text-sm text-tdc-black mb-3 flex items-center gap-2">
-            <UserPlus size={16} className="text-blue-500" />
-            Referral Pipeline
-          </h3>
-          <div className="flex flex-col items-center justify-center py-4">
-            <div className="bg-blue-50 text-blue-600 rounded-full px-4 py-2 text-xs font-semibold mb-3">
-              Coming Soon
-            </div>
-            <p className="text-xs text-tdc-gray-light text-center leading-relaxed">
-              Pipeline setup in progress. Dedicated Streak pipeline with 3 stages: Prospect, Contacted, Onboarded.
-            </p>
-            <p className="text-[10px] text-tdc-gray-light mt-2 font-medium">Phase 2</p>
-          </div>
-        </div>
-
-        {/* Disability Advocacy Placeholder */}
-        <div className="bg-white rounded-xl border border-gray-200 border-dashed p-5 shadow-sm">
-          <h3 className="font-bold text-sm text-tdc-black mb-3 flex items-center gap-2">
-            <Heart size={16} className="text-purple-500" />
-            Disability Advocacy
-          </h3>
-          <div className="flex flex-col items-center justify-center py-4">
-            <div className="bg-purple-50 text-purple-600 rounded-full px-4 py-2 text-xs font-semibold mb-3">
-              Coming Soon
-            </div>
-            <p className="text-xs text-tdc-gray-light text-center leading-relaxed">
-              Sub-profession setup in progress. "Advocate: Disability" category will be created in Expert Portal.
-            </p>
-            <p className="text-[10px] text-tdc-gray-light mt-2 font-medium">D&I Initiative</p>
-          </div>
-        </div>
-      </div>
-
-      {/* 2026 Target Progress */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-        <h3 className="font-bold text-sm text-tdc-black mb-5 flex items-center gap-2">
-          <Target size={16} className="text-tdc-gold" />
-          2026 Target Progress
-        </h3>
-        <div className="space-y-5">
-          {Object.entries(targets).map(([key, t]) => {
-            const pct = t.suffix === '%'
-              ? Math.min(100, Math.round((t.current / t.target) * 100))
-              : Math.min(100, Math.round((t.current / t.target) * 100));
-            const displayCurrent = t.suffix ? `${t.current}${t.suffix}` : t.current.toLocaleString();
-            const displayTarget = t.suffix ? `${t.target}${t.suffix}` : t.target.toLocaleString();
-            const barColor = pct >= 90 ? 'bg-green-500' : pct >= 50 ? 'bg-tdc-gold' : pct >= 25 ? 'bg-yellow-500' : 'bg-red-500';
-
-            return (
-              <div key={key}>
-                <div className="flex justify-between text-xs mb-1.5">
-                  <span className="font-semibold text-tdc-black">{t.label}</span>
-                  <span className="text-tdc-gray-mid font-medium">
-                    {displayCurrent} / {displayTarget}
-                  </span>
-                </div>
-                <div className="w-full h-5 bg-gray-100 rounded-full overflow-hidden relative">
-                  <div
-                    className={`h-full ${barColor} rounded-full gap-bar-fill`}
-                    style={{ width: `${pct}%` }}
-                  />
-                  <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-tdc-black">
-                    {pct}%
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Pipeline Details Row */}
-      <div className="grid grid-cols-2 gap-6">
-        {/* Pipeline Breakdown */}
+        {/* Community Snapshot */}
         <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-          <h3 className="font-bold text-sm text-tdc-black mb-4">Pipeline Breakdown</h3>
+          <h3 className="font-bold text-sm text-tdc-black mb-3 flex items-center gap-2">
+            <Heart size={16} className="text-green-500" />
+            Community Snapshot
+          </h3>
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <div>
-                <p className="text-xs font-semibold text-tdc-black">Applied Pipeline</p>
-                <p className="text-[10px] text-tdc-gray-light">Workable + direct applications</p>
-              </div>
-              <p className="text-xl font-bold text-tdc-black">{streak.applied.total}</p>
+            <div className="flex justify-between items-baseline">
+              <span className="text-xs text-tdc-gray-light">Total Active Experts</span>
+              <span className="text-2xl font-bold text-green-600">{totalActiveExperts?.toLocaleString()}</span>
             </div>
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <div>
-                <p className="text-xs font-semibold text-tdc-black">Sourced Pipeline</p>
-                <p className="text-[10px] text-tdc-gray-light">Team-sourced outreach</p>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="bg-gray-50 rounded-lg p-2">
+                <p className="text-[10px] text-tdc-gray-light">Prospects</p>
+                <p className="text-lg font-bold text-tdc-black">{prospects}</p>
               </div>
-              <p className="text-xl font-bold text-tdc-black">{streak.sourced.total}</p>
-            </div>
-            <div className="flex items-center justify-between p-3 bg-tdc-gold bg-opacity-10 rounded-lg border border-tdc-gold border-opacity-30">
-              <div>
-                <p className="text-xs font-semibold text-tdc-black">Combined Total</p>
-                <p className="text-[10px] text-tdc-gray-light">All active leads</p>
+              <div className="bg-gray-50 rounded-lg p-2">
+                <p className="text-[10px] text-tdc-gray-light">In Review</p>
+                <p className="text-lg font-bold text-tdc-black">{inReview}</p>
               </div>
-              <p className="text-xl font-bold text-tdc-black">{streak.combined.total}</p>
             </div>
+            {bipoc && (
+              <div className="pt-2 border-t border-gray-100">
+                <p className="text-[10px] text-tdc-gray-light">
+                  BIPOC: {bipoc.total?.toLocaleString()} ({bipoc.percentage}%)
+                </p>
+              </div>
+            )}
           </div>
         </div>
+      </div>
 
-        {/* Applied Stage Distribution */}
+      {/* Historical Comparison */}
+      <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+        <h3 className="font-bold text-sm text-tdc-black mb-4 flex items-center gap-2">
+          <Calendar size={16} className="text-tdc-gold" />
+          Onboarding by Period
+        </h3>
+        <div className="grid grid-cols-4 gap-4">
+          <PeriodCard
+            label="Q1 2026"
+            value={periods?.thisQuarter?.onboarded}
+            sub="Jan - Mar"
+            active={selectedPeriod === 'thisQuarter'}
+            onClick={() => setSelectedPeriod('thisQuarter')}
+          />
+          <PeriodCard
+            label="Q4 2025"
+            value={periods?.['q4-2025']?.onboarded}
+            sub="Oct - Dec"
+            active={selectedPeriod === 'q4-2025'}
+            onClick={() => setSelectedPeriod('q4-2025')}
+          />
+          <PeriodCard
+            label="2025 Total"
+            value={periods?.['2025']?.onboarded}
+            sub="Full year"
+            active={selectedPeriod === '2025'}
+            onClick={() => setSelectedPeriod('2025')}
+          />
+          <PeriodCard
+            label="2024 Total"
+            value={periods?.['2024']?.onboarded}
+            sub="Full year"
+            active={selectedPeriod === '2024'}
+            onClick={() => setSelectedPeriod('2024')}
+          />
+        </div>
+        <div className="grid grid-cols-3 gap-4 mt-4">
+          <PeriodCard
+            label="Jan 2026"
+            value={periods?.['2026-01']?.onboarded}
+            active={false}
+          />
+          <PeriodCard
+            label="Feb 2026"
+            value={periods?.['2026-02']?.onboarded}
+            active={false}
+          />
+          <PeriodCard
+            label="Mar 2026"
+            value={periods?.['2026-03']?.onboarded}
+            sub="In progress"
+            active={false}
+          />
+        </div>
+      </div>
+
+      {/* Applied Stage Distribution */}
+      {stageChartData.length > 0 && (
         <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
           <h3 className="font-bold text-sm text-tdc-black mb-4">Applied Pipeline - Stage Distribution</h3>
-          {stageChartData.length > 0 ? (
-            <div className="h-52">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={stageChartData} layout="vertical" margin={{ left: 120 }}>
-                  <XAxis type="number" tick={{ fontSize: 10 }} />
-                  <YAxis type="category" dataKey="name" tick={{ fontSize: 10 }} width={110} />
-                  <Tooltip contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }} />
-                  <Bar dataKey="count" fill={GOLD} radius={[0, 4, 4, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          ) : (
-            <p className="text-sm text-tdc-gray-light text-center py-8">Stage data will populate after first data refresh</p>
-          )}
+          <div className="h-52">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={stageChartData} layout="vertical" margin={{ left: 120 }}>
+                <XAxis type="number" tick={{ fontSize: 10 }} />
+                <YAxis type="category" dataKey="name" tick={{ fontSize: 10 }} width={110} />
+                <Tooltip contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }} />
+                <Bar dataKey="count" fill={GOLD} radius={[0, 4, 4, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Last Refresh */}
       <p className="text-xs text-tdc-gray-light text-right">
         Last refreshed: {new Date(data.lastRefresh).toLocaleString()}
+        {data.dataSource && <span className="ml-2">| Source: Portal Expert Data</span>}
       </p>
+    </div>
+  );
+}
+
+// === Sub-Components ===
+
+function PeriodSelector({ selected, onChange }) {
+  return (
+    <div className="relative">
+      <select
+        value={selected}
+        onChange={(e) => onChange(e.target.value)}
+        className="appearance-none bg-white border border-gray-200 rounded-lg px-4 py-2 pr-8 text-xs font-semibold text-tdc-black shadow-sm cursor-pointer hover:border-tdc-gold focus:outline-none focus:ring-2 focus:ring-tdc-gold focus:ring-opacity-30"
+      >
+        {PERIOD_OPTIONS.map(opt => (
+          <option key={opt.key} value={opt.key}>{opt.label}</option>
+        ))}
+      </select>
+      <ChevronDown size={14} className="absolute right-2 top-1/2 -translate-y-1/2 text-tdc-gray-light pointer-events-none" />
+    </div>
+  );
+}
+
+function MetricPill({ label, value, highlight = false }) {
+  return (
+    <div className={`flex items-center justify-between gap-3 px-3 py-1.5 rounded-lg text-xs ${
+      highlight ? 'bg-green-100 text-green-800 font-bold' : 'bg-white bg-opacity-70 text-green-700'
+    }`}>
+      <span>{label}</span>
+      <span className="font-bold">{value}</span>
+    </div>
+  );
+}
+
+function PeriodCard({ label, value, sub, active, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`rounded-lg p-4 text-center transition-all ${
+        active
+          ? 'bg-tdc-gold bg-opacity-15 border-2 border-tdc-gold shadow-sm'
+          : 'bg-gray-50 border border-gray-200 hover:border-tdc-gold hover:border-opacity-50'
+      } ${onClick ? 'cursor-pointer' : 'cursor-default'}`}
+    >
+      <p className="text-2xl font-bold text-tdc-black">{value != null ? value : '-'}</p>
+      <p className="text-xs font-semibold text-tdc-black mt-1">{label}</p>
+      {sub && <p className="text-[10px] text-tdc-gray-light mt-0.5">{sub}</p>}
+    </button>
+  );
+}
+
+function QuickStat({ label, value, sub }) {
+  return (
+    <div className="bg-gray-50 rounded-lg p-3 text-center">
+      <p className="text-lg font-bold text-tdc-black">{typeof value === 'number' ? value.toLocaleString() : value}</p>
+      <p className="text-[10px] text-tdc-gray-light font-medium">{label}</p>
+      {sub && <p className="text-[10px] text-tdc-gray-light opacity-70">{sub}</p>}
     </div>
   );
 }
@@ -320,24 +552,37 @@ function formatStageName(name) {
     .replace(/Tdc/g, 'TDC');
 }
 
+function formatMonthLabel(monthStr) {
+  const [year, month] = monthStr.split('-');
+  const months = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const shortYear = year.slice(2);
+  return `${months[parseInt(month)]} '${shortYear}`;
+}
+
+function getBestMonth(trend) {
+  if (!trend || trend.length === 0) return '-';
+  const best = trend.reduce((max, m) => m.onboarded > max.onboarded ? m : max, trend[0]);
+  return `${best.onboarded} (${formatMonthLabel(best.month)})`;
+}
+
 function LoadingSkeleton() {
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-3 gap-4">
-        {[1, 2, 3].map(i => (
-          <div key={i} className="bg-white rounded-xl border border-gray-200 p-5">
-            <div className="h-4 w-24 shimmer rounded mb-3" />
-            <div className="h-8 w-16 shimmer rounded" />
-          </div>
-        ))}
+      <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200 p-6">
+        <div className="h-4 w-48 shimmer rounded mb-3" />
+        <div className="h-12 w-24 shimmer rounded" />
       </div>
       <div className="bg-white rounded-xl border border-gray-200 p-6">
         <div className="h-4 w-40 shimmer rounded mb-4" />
         <div className="flex justify-center gap-4">
-          {[1, 2, 3].map(i => (
-            <div key={i} className="h-20 w-36 shimmer rounded-xl" />
+          {[1, 2, 3, 4].map(i => (
+            <div key={i} className="h-20 w-32 shimmer rounded-xl" />
           ))}
         </div>
+      </div>
+      <div className="bg-white rounded-xl border border-gray-200 p-6">
+        <div className="h-4 w-48 shimmer rounded mb-4" />
+        <div className="h-52 shimmer rounded" />
       </div>
       <div className="text-center text-tdc-gray-light text-sm py-4">
         Loading recruitment performance data...

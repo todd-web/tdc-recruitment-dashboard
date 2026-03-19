@@ -284,7 +284,7 @@ function PerformanceContent({ data, selectedPeriod, setSelectedPeriod }) {
             // Calculate pace info for onboardings
             let paceInfo = null;
             if (key === 'onboardings') {
-              const dayOfYear = Math.floor((new Date('2026-03-19') - new Date('2026-01-01')) / 86400000);
+              const dayOfYear = Math.floor((new Date() - new Date('2026-01-01')) / 86400000);
               const expectedPace = Math.round((target / 365) * dayOfYear);
               const diff = current - expectedPace;
               paceInfo = {
@@ -340,8 +340,8 @@ function PerformanceContent({ data, selectedPeriod, setSelectedPeriod }) {
 
         {/* Quick stats row */}
         <div className="grid grid-cols-4 gap-3 mt-5 pt-4 border-t border-gray-100">
-          <QuickStat label="Monthly Avg (2026)" value={Math.round(onboardedYTD / 2.6)} sub="experts/mo" />
-          <QuickStat label="Monthly Needed" value={Math.round((1500 - onboardedYTD) / 9.5)} sub="to hit 1,500" />
+          <QuickStat label="Monthly Avg (2026)" value={Math.round(onboardedYTD / Math.max(1, Math.ceil((new Date() - new Date('2026-01-01')) / (30.44 * 86400000))))} sub="experts/mo" />
+          <QuickStat label="Monthly Needed" value={Math.round((1500 - onboardedYTD) / Math.max(1, 12 - Math.ceil((new Date() - new Date('2026-01-01')) / (30.44 * 86400000))))} sub="to hit 1,500" />
           <QuickStat label="Best Month" value={getBestMonth(monthlyTrend)} sub="recent peak" />
           <QuickStat label="Conversion Rate" value={`${conversionRate}%`} sub="lead to onboarded" />
         </div>
@@ -479,7 +479,8 @@ function PerformanceContent({ data, selectedPeriod, setSelectedPeriod }) {
         <div>
           <p className="text-xs font-semibold text-blue-800 mb-1">How We Count</p>
           <p className="text-xs text-blue-700 leading-relaxed">
-            Lead data combines all recruitment pipeline sources. Prospect count represents experts in review pipeline.
+            Lead data combines all recruitment pipeline sources. 2026 leads reflect expanded intake via Workable; prior years used a narrower definition, making direct rate comparisons approximate.
+            Prospect figures are estimated totals (current pipeline plus graduates); continuous tracking system in development.
             Conversion rate = Onboarded / Total Leads.
           </p>
         </div>

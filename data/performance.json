@@ -1,4 +1,150 @@
 {
+  "funnel": {
+    "ytd": {
+      "leads": 2541,
+      "leadsBreakdown": {
+        "v1Pipeline": 1998,
+        "v2Pipeline": 543,
+        "note": "V1 Pipeline (historical, Jan-Feb 2026) + V2 Pipeline (current, Feb-Mar 2026)"
+      },
+      "prospects": 175,
+      "prospectsBreakdown": {
+        "currentProspects": 81,
+        "graduatedToActive": 94
+      },
+      "inReview": 117,
+      "onboarded": 94,
+      "conversionRate": 3.7
+    }
+  },
+  "periods": {
+    "ytd": {
+      "onboarded": 94,
+      "leads": 2541,
+      "prospects": 164,
+      "v1Leads": 1998
+    },
+    "2026-01": {
+      "onboarded": 36,
+      "leads": 1944,
+      "prospects": 37,
+      "v1Leads": 1944
+    },
+    "2026-02": {
+      "onboarded": 53,
+      "leads": 64,
+      "prospects": 57,
+      "v1Leads": 54
+    },
+    "2026-03": {
+      "onboarded": 5,
+      "leads": 71,
+      "prospects": 70,
+      "v1Leads": 0
+    },
+    "q1-2026": {
+      "onboarded": 94,
+      "leads": 2541,
+      "prospects": 164,
+      "v1Leads": 1998
+    },
+    "2025": {
+      "onboarded": 315,
+      "leads": 606,
+      "prospects": 320,
+      "v1Leads": 606
+    },
+    "2024": {
+      "onboarded": 1187,
+      "leads": 1339,
+      "prospects": 1188,
+      "v1Leads": 1129
+    }
+  },
+  "targets2026": {
+    "onboardings": 1500,
+    "communitySize": 3500,
+    "conversionRate": 10
+  },
+  "community": {
+    "totalActive": 2164,
+    "prospects": 81,
+    "inReview": 117
+  },
+  "monthlyTrend": [
+    {
+      "month": "2025-04",
+      "onboarded": 35,
+      "totalEntered": 43,
+      "v1Leads": 0
+    },
+    {
+      "month": "2025-05",
+      "onboarded": 36,
+      "totalEntered": 45,
+      "v1Leads": 0
+    },
+    {
+      "month": "2025-06",
+      "onboarded": 22,
+      "totalEntered": 26,
+      "v1Leads": 0
+    },
+    {
+      "month": "2025-07",
+      "onboarded": 26,
+      "totalEntered": 35,
+      "v1Leads": 0
+    },
+    {
+      "month": "2025-08",
+      "onboarded": 43,
+      "totalEntered": 49,
+      "v1Leads": 0
+    },
+    {
+      "month": "2025-09",
+      "onboarded": 15,
+      "totalEntered": 17,
+      "v1Leads": 0
+    },
+    {
+      "month": "2025-10",
+      "onboarded": 12,
+      "totalEntered": 30,
+      "v1Leads": 199
+    },
+    {
+      "month": "2025-11",
+      "onboarded": 30,
+      "totalEntered": 35,
+      "v1Leads": 65
+    },
+    {
+      "month": "2025-12",
+      "onboarded": 23,
+      "totalEntered": 25,
+      "v1Leads": 0
+    },
+    {
+      "month": "2026-01",
+      "onboarded": 36,
+      "totalEntered": 48,
+      "v1Leads": 1944
+    },
+    {
+      "month": "2026-02",
+      "onboarded": 53,
+      "totalEntered": 64,
+      "v1Leads": 54
+    },
+    {
+      "month": "2026-03",
+      "onboarded": 5,
+      "totalEntered": 71,
+      "v1Leads": 0
+    }
+  ],
   "streak": {
     "applied": {
       "total": 35
@@ -14,154 +160,5 @@
       "thisQuarter": 543
     }
   },
-  "workable": {
-    "total": 222,
-    "stageBreakdown": {
-      "Applied": 22,
-      "TDC Profile Created": 14,
-      "Sourced/Qualified": 132,
-      "Sourced": 54
-    }
-  },
-  "totalActiveExperts": 2164,
-  "onboarded": {
-    "today": 0,
-    "thisWeek": 1,
-    "thisMonth": 5,
-    "thisQuarter": 94
-  },
-  "periods": {
-    "2024": {
-      "label": "2024 Full Year",
-      "onboarded": 1187
-    },
-    "2025": {
-      "label": "2025 Full Year",
-      "onboarded": 315
-    },
-    "ytd": {
-      "label": "2026 Year to Date",
-      "onboarded": 94,
-      "prospects": 81,
-      "inReview": 117,
-      "totalActive": 2164
-    },
-    "thisMonth": {
-      "label": "March 2026",
-      "onboarded": 5
-    },
-    "lastMonth": {
-      "label": "February 2026",
-      "onboarded": 53
-    },
-    "thisQuarter": {
-      "label": "Q1 2026 (Jan-Mar)",
-      "onboarded": 94
-    },
-    "q4-2025": {
-      "label": "Q4 2025 (Oct-Dec)",
-      "onboarded": 65
-    },
-    "2026-01": {
-      "label": "January 2026",
-      "onboarded": 36
-    },
-    "2026-02": {
-      "label": "February 2026",
-      "onboarded": 53
-    },
-    "2026-03": {
-      "label": "March 2026",
-      "onboarded": 5
-    },
-    "q1-2025": {
-      "label": "Q1 2025 (Jan-Mar)",
-      "onboarded": 73
-    },
-    "q2-2025": {
-      "label": "Q2 2025 (Apr-Jun)",
-      "onboarded": 93
-    },
-    "q3-2025": {
-      "label": "Q3 2025 (Jul-Sep)",
-      "onboarded": 84
-    }
-  },
-  "funnel": {
-    "leads": 543,
-    "workableApplicants": 222,
-    "prospects": 81,
-    "inReview": 117,
-    "onboarded_ytd": 94,
-    "onboarded_total": 2164
-  },
-  "targets2026": {
-    "onboardings": 1500,
-    "communitySize": 3500,
-    "conversionRate": 10
-  },
-  "monthlyTrend": [
-    {
-      "month": "2025-04",
-      "onboarded": 35
-    },
-    {
-      "month": "2025-05",
-      "onboarded": 36
-    },
-    {
-      "month": "2025-06",
-      "onboarded": 22
-    },
-    {
-      "month": "2025-07",
-      "onboarded": 26
-    },
-    {
-      "month": "2025-08",
-      "onboarded": 43
-    },
-    {
-      "month": "2025-09",
-      "onboarded": 15
-    },
-    {
-      "month": "2025-10",
-      "onboarded": 12
-    },
-    {
-      "month": "2025-11",
-      "onboarded": 30
-    },
-    {
-      "month": "2025-12",
-      "onboarded": 23
-    },
-    {
-      "month": "2026-01",
-      "onboarded": 36
-    },
-    {
-      "month": "2026-02",
-      "onboarded": 53
-    },
-    {
-      "month": "2026-03",
-      "onboarded": 5
-    }
-  ],
-  "markets": {
-    "Chicago": 199,
-    "Los Angeles": 494,
-    "New York": 151,
-    "Bentonville": 4
-  },
-  "bipoc": {
-    "total": 1080,
-    "percentage": 50
-  },
-  "prospects": 81,
-  "lastRefresh": "2026-03-18T00:00:00.000Z",
-  "dataSource": "Portal expert snapshot (fresh_postfix_experts_v41_20260318.json)",
-  "generatedAt": "2026-03-19T04:43:01.001Z"
+  "lastUpdated": "2026-03-19T00:45:43.333708"
 }

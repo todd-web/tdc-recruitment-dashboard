@@ -2,63 +2,46 @@
   "funnel": {
     "ytd": {
       "leads": 2541,
-      "leadsBreakdown": {
-        "v1Pipeline": 1998,
-        "v2Pipeline": 543,
-        "note": "V1 Pipeline (historical, Jan-Feb 2026) + V2 Pipeline (current, Feb-Mar 2026)"
-      },
       "prospects": 175,
-      "prospectsBreakdown": {
-        "currentProspects": 81,
-        "graduatedToActive": 94
-      },
-      "inReview": 117,
       "onboarded": 94,
       "conversionRate": 3.7
     }
   },
   "periods": {
     "ytd": {
-      "onboarded": 94,
       "leads": 2541,
       "prospects": 164,
-      "v1Leads": 1998
+      "onboarded": 94
     },
     "2026-01": {
-      "onboarded": 36,
       "leads": 1944,
       "prospects": 37,
-      "v1Leads": 1944
+      "onboarded": 36
     },
     "2026-02": {
-      "onboarded": 53,
       "leads": 64,
       "prospects": 57,
-      "v1Leads": 54
+      "onboarded": 53
     },
     "2026-03": {
-      "onboarded": 5,
       "leads": 71,
       "prospects": 70,
-      "v1Leads": 0
+      "onboarded": 5
     },
     "q1-2026": {
-      "onboarded": 94,
       "leads": 2541,
       "prospects": 164,
-      "v1Leads": 1998
+      "onboarded": 94
     },
     "2025": {
-      "onboarded": 315,
       "leads": 606,
       "prospects": 320,
-      "v1Leads": 606
+      "onboarded": 315
     },
     "2024": {
-      "onboarded": 1187,
       "leads": 1339,
       "prospects": 1188,
-      "v1Leads": 1129
+      "onboarded": 1187
     }
   },
   "targets2026": {
@@ -68,97 +51,81 @@
   },
   "community": {
     "totalActive": 2164,
-    "prospects": 81,
-    "inReview": 117
+    "prospects": 81
   },
   "monthlyTrend": [
     {
       "month": "2025-04",
-      "onboarded": 35,
-      "totalEntered": 43,
-      "v1Leads": 0
+      "leads": 43,
+      "prospects": 35,
+      "onboarded": 35
     },
     {
       "month": "2025-05",
-      "onboarded": 36,
-      "totalEntered": 45,
-      "v1Leads": 0
+      "leads": 45,
+      "prospects": 36,
+      "onboarded": 36
     },
     {
       "month": "2025-06",
-      "onboarded": 22,
-      "totalEntered": 26,
-      "v1Leads": 0
+      "leads": 26,
+      "prospects": 22,
+      "onboarded": 22
     },
     {
       "month": "2025-07",
-      "onboarded": 26,
-      "totalEntered": 35,
-      "v1Leads": 0
+      "leads": 35,
+      "prospects": 26,
+      "onboarded": 26
     },
     {
       "month": "2025-08",
-      "onboarded": 43,
-      "totalEntered": 49,
-      "v1Leads": 0
+      "leads": 49,
+      "prospects": 43,
+      "onboarded": 43
     },
     {
       "month": "2025-09",
-      "onboarded": 15,
-      "totalEntered": 17,
-      "v1Leads": 0
+      "leads": 17,
+      "prospects": 15,
+      "onboarded": 15
     },
     {
       "month": "2025-10",
-      "onboarded": 12,
-      "totalEntered": 30,
-      "v1Leads": 199
+      "leads": 229,
+      "prospects": 12,
+      "onboarded": 12
     },
     {
       "month": "2025-11",
-      "onboarded": 30,
-      "totalEntered": 35,
-      "v1Leads": 65
+      "leads": 100,
+      "prospects": 30,
+      "onboarded": 30
     },
     {
       "month": "2025-12",
-      "onboarded": 23,
-      "totalEntered": 25,
-      "v1Leads": 0
+      "leads": 25,
+      "prospects": 23,
+      "onboarded": 23
     },
     {
       "month": "2026-01",
-      "onboarded": 36,
-      "totalEntered": 48,
-      "v1Leads": 1944
+      "leads": 1944,
+      "prospects": 37,
+      "onboarded": 36
     },
     {
       "month": "2026-02",
-      "onboarded": 53,
-      "totalEntered": 64,
-      "v1Leads": 54
+      "leads": 64,
+      "prospects": 57,
+      "onboarded": 53
     },
     {
       "month": "2026-03",
-      "onboarded": 5,
-      "totalEntered": 71,
-      "v1Leads": 0
+      "leads": 71,
+      "prospects": 70,
+      "onboarded": 5
     }
   ],
-  "streak": {
-    "applied": {
-      "total": 35
-    },
-    "sourced": {
-      "total": 508
-    },
-    "combined": {
-      "total": 543,
-      "today": 0,
-      "thisWeek": 536,
-      "thisMonth": 543,
-      "thisQuarter": 543
-    }
-  },
   "lastUpdated": "2026-03-19T00:45:43.333708"
 }

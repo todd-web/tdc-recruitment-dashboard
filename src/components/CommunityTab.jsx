@@ -8,6 +8,17 @@ import {
 } from 'lucide-react';
 import { fetchEndpoint } from '../api';
 
+// Generalist / supplementary professions to exclude from community view
+const SUPPRESS_FROM_COMMUNITY = new Set([
+  "Actor/TV Personality", "Advocate", "Artist", "Author", "Blogger",
+  "Business Executive", "CEO/Founder", "Cinematographer", "Coach", "Dancer",
+  "DIY Creator", "Drone Operator", "Educator", "Entertainer", "Entrepreneur",
+  "Hybrid Worker", "Journalist", "Life Coach", "Lifestyle Expert",
+  "Live Streamer/Content Creator", "Model", "Photographer", "Podcaster",
+  "Recording Artist", "Remote Worker", "Reporter/Journalist", "Talent Management",
+  "Talk Show Host", "TV/Film Commentator", "TV/Media Producer", "Videographer", "Other",
+]);
+
 // TDC Brand Colors
 const GOLD = '#C5A572';
 const GOLD_DARK = '#A88B5E';
@@ -70,7 +81,7 @@ export default function CommunityTab({ refreshKey }) {
     coverageScore,
     coverageCritHighTotal,
     coverageCritHighMeeting,
-    professionDistribution,
+    professionDistribution: rawProfessionDistribution,
     noProfessionCount,
     stateDistribution,
     arkansasEntry,
@@ -80,6 +91,11 @@ export default function CommunityTab({ refreshKey }) {
     dataCompleteness,
     urgencyMap,
   } = data;
+
+  // Filter out generalist/supplementary professions, keep top 10
+  const professionDistribution = (rawProfessionDistribution || [])
+    .filter(p => !SUPPRESS_FROM_COMMUNITY.has(p.name))
+    .slice(0, 10);
 
   return (
     <div className="space-y-6">
@@ -118,12 +134,12 @@ export default function CommunityTab({ refreshKey }) {
 
       {/* Section 2: Two-column layout */}
       <div className="grid grid-cols-5 gap-6">
-        {/* LEFT (60%): Top 20 Professional Categories */}
+        {/* LEFT (60%): Top 10 Expert Specializations */}
         <div className="col-span-3 bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-sm text-tdc-black flex items-center gap-2">
               <Star size={16} className="text-tdc-gold" />
-              Top 20 Professional Categories
+              Top 10 Expert Specializations
             </h3>
             {noProfessionCount > 0 && (
               <span className="text-[10px] text-tdc-gray-light bg-gray-100 px-2 py-1 rounded">
@@ -153,6 +169,9 @@ export default function CommunityTab({ refreshKey }) {
               Colors reflect V4.1 urgency cross-reference
             </span>
           </div>
+          <p className="text-[10px] text-tdc-gray-light mt-2 italic">
+            Filtered to domain expertise categories. Supplementary tags (content creator, entrepreneur, etc.) excluded.
+          </p>
         </div>
 
         {/* RIGHT (40%): Geographic + Demographics */}

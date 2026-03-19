@@ -6,14 +6,14 @@ import PerformanceTab from './components/PerformanceTab';
 import ScorecardTab from './components/ScorecardTab';
 
 const TABS = [
+  { id: 'priorities', label: 'Coverage', icon: Target },
   { id: 'community', label: 'Community', icon: Users },
   { id: 'performance', label: 'Recruitment', icon: BarChart3 },
   { id: 'scorecard', label: 'Scorecard', icon: ClipboardCheck },
-  { id: 'priorities', label: 'Coverage', icon: Target },
 ];
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('community');
+  const [activeTab, setActiveTab] = useState('priorities');
   const [refreshKey, setRefreshKey] = useState(0);
 
   const triggerRefresh = useCallback(() => {

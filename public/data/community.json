@@ -7,29 +7,14 @@
   "coverageCritHighMeeting": 2,
   "professionDistribution": [
     {
-      "name": "Artist",
-      "count": 286,
-      "pct": 13.2
-    },
-    {
-      "name": "Entrepreneur",
-      "count": 228,
-      "pct": 10.5
-    },
-    {
       "name": "Fitness Expert",
       "count": 224,
       "pct": 10.4
     },
     {
-      "name": "Actor/TV Personality",
-      "count": 217,
-      "pct": 10
-    },
-    {
       "name": "Athlete",
       "count": 194,
-      "pct": 9
+      "pct": 9.0
     },
     {
       "name": "Wellness Expert",
@@ -47,23 +32,8 @@
       "pct": 6.2
     },
     {
-      "name": "Model",
-      "count": 121,
-      "pct": 5.6
-    },
-    {
-      "name": "Educator",
-      "count": 98,
-      "pct": 4.5
-    },
-    {
       "name": "Adventurer/Outdoors",
       "count": 93,
-      "pct": 4.3
-    },
-    {
-      "name": "Business Executive",
-      "count": 92,
       "pct": 4.3
     },
     {
@@ -77,32 +47,12 @@
       "pct": 4.1
     },
     {
-      "name": "Blogger",
-      "count": 78,
-      "pct": 3.6
-    },
-    {
-      "name": "Coach",
-      "count": 72,
-      "pct": 3.3
-    },
-    {
-      "name": "Live Streamer/Content Creator",
-      "count": 69,
-      "pct": 3.2
-    },
-    {
       "name": "Doctor",
       "count": 69,
       "pct": 3.2
     },
     {
       "name": "Nutrition Coach",
-      "count": 67,
-      "pct": 3.1
-    },
-    {
-      "name": "Recording Artist",
       "count": 67,
       "pct": 3.1
     }

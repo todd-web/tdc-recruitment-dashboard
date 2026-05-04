@@ -1,0 +1,47 @@
+{
+  "lastRefresh": "2026-05-04T16:07:00.563Z",
+  "scorecard": [
+    {
+      "metric": "New Streak Outreach (this month)",
+      "target": 600,
+      "actual": 0,
+      "owner": "Recruitment Operations Lead"
+    },
+    {
+      "metric": "New Portal Records (this month)",
+      "target": 100,
+      "actual": 2,
+      "owner": "Expert Team"
+    },
+    {
+      "metric": "Currently in Pipeline (Prospect + In Review)",
+      "target": "Maintain 200+",
+      "actual": 257,
+      "owner": "Expert Team"
+    },
+    {
+      "metric": "NWA Active Experts",
+      "target": 75,
+      "actual": 22,
+      "owner": "Expert Team"
+    },
+    {
+      "metric": "Total Active Community",
+      "target": 3500,
+      "actual": 2251,
+      "owner": "Expert Team"
+    },
+    {
+      "metric": "First Response Within 24h",
+      "target": "80%+",
+      "actual": null,
+      "owner": "Recruitment Operations Lead"
+    },
+    {
+      "metric": "3+ Touches Completed",
+      "target": "70%+",
+      "actual": null,
+      "owner": "Recruitment Operations Lead"
+    }
+  ]
+}

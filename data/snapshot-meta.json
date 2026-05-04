@@ -1,0 +1,13 @@
+{
+  "refreshedAt": "2026-05-04T16:07:00.563Z",
+  "refreshedDate": "2026-05-04",
+  "counts": {
+    "total": 2725,
+    "active": 2251,
+    "prospect": 137,
+    "inReview": 109,
+    "streakApplied": 260,
+    "streakSourced": 1000
+  },
+  "methodologyChange": "Funnel reframed 2026-05-04 to use cohort math (records created in period, current status) instead of meaningless point-in-time bucket comparisons."
+}

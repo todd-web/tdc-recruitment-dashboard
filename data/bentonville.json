@@ -1,0 +1,437 @@
+{
+  "asOf": "2026-05-04",
+  "refreshedAt": "2026-05-04T16:07:00.290Z",
+  "pipelineSnapshot": {
+    "asOf": "2026-05-04",
+    "currentlyActive": 22,
+    "currentlyProspect": 4,
+    "currentlyInReview": 0,
+    "currentlyInNegotiation": 0,
+    "currentlyInactive": 0,
+    "noStatus": 0,
+    "totalLifetime": 26,
+    "inPipeline": 4
+  },
+  "cohorts": {
+    "2026-04": {
+      "portalCreated": 16,
+      "currentlyActive": 12,
+      "currentlyProspect": 4,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "streakBoxesCreated": 698,
+      "streakV2": 696,
+      "streakV1": 2,
+      "ageDays": 33,
+      "mature": false,
+      "activationRate": 75
+    },
+    "2026-03": {
+      "portalCreated": 3,
+      "currentlyActive": 3,
+      "currentlyProspect": 0,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "streakBoxesCreated": 564,
+      "streakV2": 564,
+      "ageDays": 64,
+      "mature": false,
+      "activationRate": 100
+    },
+    "2025-06": {
+      "portalCreated": 1,
+      "currentlyActive": 1,
+      "currentlyProspect": 0,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "ageDays": 337,
+      "mature": true,
+      "activationRate": 100,
+      "streakBoxesCreated": 0
+    },
+    "2025-02": {
+      "portalCreated": 1,
+      "currentlyActive": 1,
+      "currentlyProspect": 0,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "streakBoxesCreated": 1,
+      "streakV1": 1,
+      "ageDays": 457,
+      "mature": true,
+      "activationRate": 100
+    },
+    "2024-08": {
+      "portalCreated": 2,
+      "currentlyActive": 2,
+      "currentlyProspect": 0,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "streakBoxesCreated": 145,
+      "streakV1": 145,
+      "ageDays": 641,
+      "mature": true,
+      "activationRate": 100
+    },
+    "2024-03": {
+      "portalCreated": 2,
+      "currentlyActive": 2,
+      "currentlyProspect": 0,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "ageDays": 794,
+      "mature": true,
+      "activationRate": 100,
+      "streakBoxesCreated": 0
+    },
+    "2023-12": {
+      "portalCreated": 1,
+      "currentlyActive": 1,
+      "currentlyProspect": 0,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "ageDays": 885,
+      "mature": true,
+      "activationRate": 100,
+      "streakBoxesCreated": 0
+    },
+    "2026-02": {
+      "portalCreated": 0,
+      "currentlyActive": 0,
+      "currentlyProspect": 0,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "streakBoxesCreated": 54,
+      "streakV1": 54,
+      "ageDays": 92,
+      "mature": true,
+      "activationRate": null
+    },
+    "2026-01": {
+      "portalCreated": 0,
+      "currentlyActive": 0,
+      "currentlyProspect": 0,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "streakBoxesCreated": 1944,
+      "streakV1": 1944,
+      "ageDays": 123,
+      "mature": true,
+      "activationRate": null
+    },
+    "2025-11": {
+      "portalCreated": 0,
+      "currentlyActive": 0,
+      "currentlyProspect": 0,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "streakBoxesCreated": 65,
+      "streakV1": 65,
+      "ageDays": 184,
+      "mature": true,
+      "activationRate": null
+    },
+    "2025-10": {
+      "portalCreated": 0,
+      "currentlyActive": 0,
+      "currentlyProspect": 0,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "streakBoxesCreated": 199,
+      "streakV1": 199,
+      "ageDays": 215,
+      "mature": true,
+      "activationRate": null
+    },
+    "2025-01": {
+      "portalCreated": 0,
+      "currentlyActive": 0,
+      "currentlyProspect": 0,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "streakBoxesCreated": 341,
+      "streakV1": 341,
+      "ageDays": 488,
+      "mature": true,
+      "activationRate": null
+    },
+    "2024-12": {
+      "portalCreated": 0,
+      "currentlyActive": 0,
+      "currentlyProspect": 0,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "streakBoxesCreated": 158,
+      "streakV1": 158,
+      "ageDays": 519,
+      "mature": true,
+      "activationRate": null
+    },
+    "2024-11": {
+      "portalCreated": 0,
+      "currentlyActive": 0,
+      "currentlyProspect": 0,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "streakBoxesCreated": 117,
+      "streakV1": 117,
+      "ageDays": 549,
+      "mature": true,
+      "activationRate": null
+    },
+    "2024-10": {
+      "portalCreated": 0,
+      "currentlyActive": 0,
+      "currentlyProspect": 0,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "streakBoxesCreated": 203,
+      "streakV1": 203,
+      "ageDays": 580,
+      "mature": true,
+      "activationRate": null
+    },
+    "2024-09": {
+      "portalCreated": 0,
+      "currentlyActive": 0,
+      "currentlyProspect": 0,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "streakBoxesCreated": 241,
+      "streakV1": 241,
+      "ageDays": 610,
+      "mature": true,
+      "activationRate": null
+    },
+    "2024-07": {
+      "portalCreated": 0,
+      "currentlyActive": 0,
+      "currentlyProspect": 0,
+      "currentlyInReview": 0,
+      "currentlyInactive": 0,
+      "currentlyInNegotiation": 0,
+      "noStatus": 0,
+      "streakBoxesCreated": 265,
+      "streakV1": 265,
+      "ageDays": 672,
+      "mature": true,
+      "activationRate": null
+    }
+  },
+  "velocity": [
+    {
+      "month": "2024-12",
+      "portalRecordsCreated": 0,
+      "streakBoxesCreated": 158,
+      "streakV1": 158,
+      "streakV2": 0
+    },
+    {
+      "month": "2025-01",
+      "portalRecordsCreated": 0,
+      "streakBoxesCreated": 341,
+      "streakV1": 341,
+      "streakV2": 0
+    },
+    {
+      "month": "2025-02",
+      "portalRecordsCreated": 1,
+      "streakBoxesCreated": 1,
+      "streakV1": 1,
+      "streakV2": 0
+    },
+    {
+      "month": "2025-03",
+      "portalRecordsCreated": 0,
+      "streakBoxesCreated": 0,
+      "streakV1": 0,
+      "streakV2": 0
+    },
+    {
+      "month": "2025-04",
+      "portalRecordsCreated": 0,
+      "streakBoxesCreated": 0,
+      "streakV1": 0,
+      "streakV2": 0
+    },
+    {
+      "month": "2025-05",
+      "portalRecordsCreated": 0,
+      "streakBoxesCreated": 0,
+      "streakV1": 0,
+      "streakV2": 0
+    },
+    {
+      "month": "2025-06",
+      "portalRecordsCreated": 1,
+      "streakBoxesCreated": 0,
+      "streakV1": 0,
+      "streakV2": 0
+    },
+    {
+      "month": "2025-07",
+      "portalRecordsCreated": 0,
+      "streakBoxesCreated": 0,
+      "streakV1": 0,
+      "streakV2": 0
+    },
+    {
+      "month": "2025-08",
+      "portalRecordsCreated": 0,
+      "streakBoxesCreated": 0,
+      "streakV1": 0,
+      "streakV2": 0
+    },
+    {
+      "month": "2025-09",
+      "portalRecordsCreated": 0,
+      "streakBoxesCreated": 0,
+      "streakV1": 0,
+      "streakV2": 0
+    },
+    {
+      "month": "2025-10",
+      "portalRecordsCreated": 0,
+      "streakBoxesCreated": 199,
+      "streakV1": 199,
+      "streakV2": 0
+    },
+    {
+      "month": "2025-11",
+      "portalRecordsCreated": 0,
+      "streakBoxesCreated": 65,
+      "streakV1": 65,
+      "streakV2": 0
+    },
+    {
+      "month": "2025-12",
+      "portalRecordsCreated": 0,
+      "streakBoxesCreated": 0,
+      "streakV1": 0,
+      "streakV2": 0
+    },
+    {
+      "month": "2026-01",
+      "portalRecordsCreated": 0,
+      "streakBoxesCreated": 1944,
+      "streakV1": 1944,
+      "streakV2": 0
+    },
+    {
+      "month": "2026-02",
+      "portalRecordsCreated": 0,
+      "streakBoxesCreated": 54,
+      "streakV1": 54,
+      "streakV2": 0
+    },
+    {
+      "month": "2026-03",
+      "portalRecordsCreated": 3,
+      "streakBoxesCreated": 564,
+      "streakV1": 0,
+      "streakV2": 564
+    },
+    {
+      "month": "2026-04",
+      "portalRecordsCreated": 16,
+      "streakBoxesCreated": 698,
+      "streakV1": 2,
+      "streakV2": 696
+    },
+    {
+      "month": "2026-05",
+      "portalRecordsCreated": 0,
+      "streakBoxesCreated": 0,
+      "streakV1": 0,
+      "streakV2": 0
+    }
+  ],
+  "cityBreakdown": {
+    "bentonville": 6,
+    "rogers": 1,
+    "fayetteville": 6,
+    "springdale": 1,
+    "other": 8
+  },
+  "topProfessions": [
+    {
+      "name": "Fitness Expert",
+      "count": 5
+    },
+    {
+      "name": "CEO/Founder",
+      "count": 5
+    },
+    {
+      "name": "Entrepreneur",
+      "count": 4
+    },
+    {
+      "name": "Medical Professions",
+      "count": 4
+    },
+    {
+      "name": "Chef",
+      "count": 3
+    },
+    {
+      "name": "Coach",
+      "count": 3
+    },
+    {
+      "name": "TV/Media Producer",
+      "count": 3
+    },
+    {
+      "name": "Nurse",
+      "count": 2
+    }
+  ],
+  "targetEoy2026": 75,
+  "progressPct": 29.3,
+  "professionGapNote": "NWA pipeline is heavy on entrepreneurial/executive profiles (Hive Networking impact). Sam's Club / Member's Mark productized briefs need Chefs, Pet Care, Home Improvement, and Outdoor profiles. Prioritize these in next outreach wave.",
+  "definitions": {
+    "pipelineSnapshot": "Current state of every Portal record by status. NOT a funnel — these are bucket counts at a point in time.",
+    "currentlyActive": "Portal records with status = Active right now. They were once Prospect.",
+    "currentlyProspect": "Portal records with status = Prospect right now. Will move to Active or be declined.",
+    "inPipeline": "Currently Prospect + In Review + In Negotiation. Active recruiting workload.",
+    "cohort": "Records created in a specific month, tracked by their CURRENT status. The honest way to measure conversion.",
+    "activationRate": "Of the cohort created in this month, what percent are currently Active. Only meaningful for cohorts ≥3 months old.",
+    "mature": "Cohort is ≥90 days old, so most members have had time to activate. Conversion rate is representative.",
+    "streakBox": "Outreach attempt in Streak. Most stay in \"Initial Outreach\" until the person responds. Only ~25% become Portal records.",
+    "portalRecord": "Person captured in the Portal. Always created as Prospect, then transitions to Active (or declined).",
+    "velocity": "Per-month creation events. Captures effort in (Streak boxes) and people captured (Portal records). Independent of later status changes."
+  }
+}

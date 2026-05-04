@@ -1,0 +1,279 @@
+{
+  "asOf": "2026-05-04",
+  "refreshedAt": "2026-05-04T16:07:00.562Z",
+  "totalExperts": 2251,
+  "professionDistribution": [
+    {
+      "name": "Artist",
+      "count": 308,
+      "pct": 13.7
+    },
+    {
+      "name": "Entrepreneur",
+      "count": 237,
+      "pct": 10.5
+    },
+    {
+      "name": "Actor/TV Personality",
+      "count": 222,
+      "pct": 9.9
+    },
+    {
+      "name": "Fitness Expert",
+      "count": 219,
+      "pct": 9.7
+    },
+    {
+      "name": "Athlete",
+      "count": 201,
+      "pct": 8.9
+    },
+    {
+      "name": "Wellness Expert",
+      "count": 164,
+      "pct": 7.3
+    },
+    {
+      "name": "Beauty Expert",
+      "count": 164,
+      "pct": 7.3
+    },
+    {
+      "name": "Musician",
+      "count": 152,
+      "pct": 6.8
+    },
+    {
+      "name": "Model",
+      "count": 122,
+      "pct": 5.4
+    },
+    {
+      "name": "Educator",
+      "count": 113,
+      "pct": 5
+    },
+    {
+      "name": "Business Executive",
+      "count": 106,
+      "pct": 4.7
+    },
+    {
+      "name": "Chef",
+      "count": 98,
+      "pct": 4.4
+    },
+    {
+      "name": "Adventurer/Outdoors",
+      "count": 98,
+      "pct": 4.4
+    },
+    {
+      "name": "Fashion Stylist",
+      "count": 91,
+      "pct": 4
+    },
+    {
+      "name": "Blogger",
+      "count": 86,
+      "pct": 3.8
+    },
+    {
+      "name": "Recording Artist",
+      "count": 78,
+      "pct": 3.5
+    },
+    {
+      "name": "Nutrition Coach",
+      "count": 74,
+      "pct": 3.3
+    },
+    {
+      "name": "Medical Professions",
+      "count": 72,
+      "pct": 3.2
+    },
+    {
+      "name": "Doctor",
+      "count": 72,
+      "pct": 3.2
+    },
+    {
+      "name": "Coach",
+      "count": 71,
+      "pct": 3.2
+    }
+  ],
+  "noProfessionCount": 134,
+  "stateDistribution": [
+    {
+      "state": "California",
+      "count": 501,
+      "pct": 22.3
+    },
+    {
+      "state": "Illinois",
+      "count": 306,
+      "pct": 13.6
+    },
+    {
+      "state": "New York",
+      "count": 243,
+      "pct": 10.8
+    },
+    {
+      "state": "Georgia",
+      "count": 130,
+      "pct": 5.8
+    },
+    {
+      "state": "Florida",
+      "count": 108,
+      "pct": 4.8
+    },
+    {
+      "state": "Texas",
+      "count": 101,
+      "pct": 4.5
+    },
+    {
+      "state": "New Jersey",
+      "count": 64,
+      "pct": 2.8
+    },
+    {
+      "state": "Arizona",
+      "count": 43,
+      "pct": 1.9
+    },
+    {
+      "state": "Pennsylvania",
+      "count": 41,
+      "pct": 1.8
+    },
+    {
+      "state": "North Carolina",
+      "count": 32,
+      "pct": 1.4
+    }
+  ],
+  "ethnicity": {
+    "White": 884,
+    "Two or More Races": 117,
+    "Black or African American": 575,
+    "Hispanic/Latino": 186,
+    "South Asian": 47,
+    "Native Hawaiian or Other Pacific Islander": 13,
+    "East Asian": 39,
+    "American Indian or Alaska Native": 10
+  },
+  "gender": {
+    "Female": 1123,
+    "Male": 832,
+    "male": 1,
+    "Non-Binary": 10,
+    "Prefer not to say": 3,
+    "Other": 1
+  },
+  "coverageScore": 5.3,
+  "coverageCritHighTotal": 19,
+  "coverageCritHighMeeting": 1,
+  "urgencyMap": {
+    "Pharmacy and Medication": "CRITICAL",
+    "Pet Grooming": "CRITICAL",
+    "HVAC and Ventilation": "HIGH",
+    "BBQ and Grilling": "CRITICAL",
+    "Pet Training and Behavior": "HIGH",
+    "Vision and Eye Care": "HIGH",
+    "Electrical": "MEDIUM",
+    "Plumbing": "HIGH",
+    "Painting and Finishing": "CRITICAL",
+    "Workplace Safety and Compliance (EHS)": "CRITICAL",
+    "Dental and Oral Health": "MEDIUM",
+    "Hunting, Fishing, and Sporting Outdoors": "HIGH",
+    "Appliance Repair and Installation": "LOW",
+    "Baking and Pastry": "HIGH",
+    "Food Science and Product Testing": "HIGH",
+    "Nails and Lash/Brow": "CRITICAL",
+    "Veterinary (Vet, Vet Tech)": "LOW",
+    "Coffee and Tea": "MEDIUM",
+    "Farming and Ranching": "MEDIUM",
+    "Nursing and Clinical Care": "LOW",
+    "Physicians (MD, DO)": "LOW",
+    "Physical Therapy and Rehab": "MEDIUM",
+    "Carpentry and Woodwork": "LOW",
+    "Automotive (Mechanic, Detailing)": "LOW",
+    "Early Childhood and Parenting Education": "MEDIUM",
+    "Fire and Emergency Response": "LOW",
+    "Audio, Video, and A/V Tech": "LOW",
+    "Hardware and Engineering": "LOW",
+    "Nutrition and Dietetics": "LOW",
+    "Mental and Behavioral Health": "MEDIUM",
+    "General Contractors and Remodel": "LOW",
+    "Jewelry and Watches": "MEDIUM",
+    "Law Enforcement and Public Safety": "LOW",
+    "Gardening and Horticulture": "LOW",
+    "Landscaping and Outdoor Build": "LOW",
+    "Private Security and Protection": "HIGH",
+    "Consumer Tech and Smart Home": "LOW",
+    "Handyman and Home Maintenance": "LOW",
+    "Chef and Culinary (General)": "LOW",
+    "Fashion Retail and Merchandising": "MEDIUM",
+    "Software and Developer": "MEDIUM",
+    "Skincare and Esthetics": "LOW",
+    "Personal Training and Strength": "LOW",
+    "Special Education and Learning Support": "HIGH",
+    "Animal Care and Rescue": "LOW",
+    "Specialty Animals": "LOW",
+    "Gaming Tech (Hardware, PC build)": "LOW",
+    "Wellness Practitioners": "LOW",
+    "Home Cleaning and Organization": "LOW",
+    "Interior and Spatial Design": "LOW",
+    "Public Transit and Rail": "CRITICAL",
+    "Mixology and Bar (Cocktails)": "LOW",
+    "Hair (Stylist, Color, Barber)": "LOW",
+    "Makeup (Artist, Educator)": "LOW",
+    "Science and Lab": "MEDIUM",
+    "Emergency Management and Preparedness": "LOW",
+    "Flooring and Tile": "LOW",
+    "Yoga, Pilates, Mobility": "LOW",
+    "Commercial Driving and Fleet": "CRITICAL",
+    "IT Support and Systems": "LOW",
+    "Camping, Hiking, Survival": "LOW",
+    "Beauty Retail and Education": "LOW",
+    "Sports Coaching (Team, Youth)": "LOW",
+    "Recovery and Bodywork": "LOW",
+    "Endurance and Outdoor Fitness": "LOW",
+    "Styling (Wardrobe, Personal Style)": "LOW",
+    "Gaming and Streaming Creators": "LOW",
+    "Travel and Hospitality": "LOW",
+    "Aviation and Airport": "HIGH",
+    "On-Camera Host and Presenter": "LOW",
+    "Apparel Design and Production": "LOW",
+    "Environmental and Conservation": "MEDIUM",
+    "K-12 Education": "LOW",
+    "Finance and Accounting": "HIGH",
+    "Real Estate (Residential, Commercial)": "LOW",
+    "Podcasting and Audio Content": "MEDIUM",
+    "Logistics and Supply Chain": "MEDIUM",
+    "Makers and Crafts (Artisan)": "LOW",
+    "Legal and Compliance": "MEDIUM",
+    "Music (Producer, Artist, DJ)": "LOW",
+    "Photo and Video Production": "LOW",
+    "Entrepreneurship and Small Business": "LOW",
+    "HR and Talent": "LOW",
+    "Operations and Project Management": "MEDIUM",
+    "Corporate Training and Coaching": "LOW",
+    "Acting and Performance": "LOW",
+    "Influencer and Creator (Lifestyle)": "LOW",
+    "Communications and PR": "LOW",
+    "Sales and Partnerships": "LOW"
+  },
+  "dataCompleteness": {
+    "ethnicity": 0.83,
+    "gender": 0.88
+  },
+  "onboardedThisMonth": 2,
+  "onboardedThisMonthNote": "This is records created this month, regardless of current status. They are not all \"Active\" yet. Use the Recruitment tab for cohort math.",
+  "bentonvilleExperts": 22
+}
